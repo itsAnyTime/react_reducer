@@ -1,23 +1,53 @@
-import logo from './logo.svg';
 import './App.css';
+import Show from './Show';
+import { createStore } from "redux"; // installed redux extension
 
+const initialState = {
+  buttonClicked: 'no',
+  divVisible: 'no'
+}
+
+function rootReducer(state = initialState, action) {
+  switch (action.type) {
+    case "BUTTON_CLICKED":
+      return { ...state, buttonClicked: 'yes' }
+    case "DIV_VISIBLE":
+      return { ...state, divVisible: 'yes' }
+    default:
+      return state;
+  }
+  // depending of action typye we will change the state accordingly
+  // return state;
+}
+
+const store = createStore(rootReducer);
+
+// add 2 redux methods (actions)
+function btnClick() {
+
+  const btnClickedAction = {
+    type: "BUTTON_CLICKED"
+  }
+
+  const divVisibleAction = {
+    type: "DIV_VISIBLE"
+  }
+
+  store.dispatch(btnClickedAction);
+  // store.subscribe(divVisibleAction); // changes state
+  store.dispatch(divVisibleAction);
+}
+
+store.subscribe(function () {
+  if (store.getState().divVisible === 'yes') {
+    const div = document.getElementById('mydiv');
+    div.style.display = 'block';
+  }
+})
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Show click={btnClick} />
     </div>
   );
 }
