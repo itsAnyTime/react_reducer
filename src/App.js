@@ -16,7 +16,7 @@ function rootReducer(state = initialState, action) {
     default:
       return state;
   }
-  // depending of action typye we will change the state accordingly
+  // depending of action type we will change the state accordingly
   // return state;
 }
 
